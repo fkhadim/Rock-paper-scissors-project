@@ -12,7 +12,7 @@ function getComputerChoice() {
 function getPlayerChoice() {
     let playerchoice;
     do {
-        playerchoice = prompt('Rock Paper scissors! what do you choose?').toLowerCase();
+        playerchoice = prompt('Console Rock Paper scissors! what do you choose?').toLowerCase();
         if (playerchoice === 'rock' || playerchoice === 'paper' || playerchoice === 'scissors'){
             return playerchoice;
         }
