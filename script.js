@@ -1,3 +1,78 @@
+const rock = document.querySelector('.rock')
+const paper = document.querySelector('.paper')
+const scissors = document.querySelector('.scissors')
+const scoreCount = document.querySelector('.score-count')
+const selection = document.querySelector('.selection')
+const btnWrapper = document.querySelector('.btn-wrapper');
+const finalScore = document.querySelector('.final-score')
+
+let playerScore = 0;
+let computerScore = 0;
+let draws = 0;
+
+function updateScore(){
+    scoreCount.textContent = `your score is ${playerScore} the computer score is ${computerScore} you have drawn ${draws} times`
+    if ((playerScore >= 5 || computerScore >= 5)){
+        if(playerScore > computerScore){
+            scoreCount.textContent = 'Play Again'
+            if (btnWrapper.hasChildNodes() === false){
+            let refresh = document.createElement('button')
+            refresh.textContent = 'Refresh'
+            refresh.classList.add('btn')
+            refresh.addEventListener('click', () =>{
+                refresh.remove()
+                playerScore = 0;
+                computerScore = 0;
+                draws = 0;
+                scoreCount.textContent = `your score is ${playerScore} the computer score is ${computerScore} you have drawn ${draws} times`
+                selection.textContent = ''
+                finalScore.textContent = ''
+            })
+            btnWrapper.appendChild(refresh);
+            finalScore.textContent = `Final Score - Player:${playerScore} CPU:${computerScore}`
+            }
+        }
+        else if(computerScore > playerScore){
+            scoreCount.textContent = 'You Lose'
+            if (btnWrapper.hasChildNodes() === false){
+                let refresh = document.createElement('button')
+                refresh.textContent = 'Play Again'
+                refresh.classList.add('btn')
+                refresh.addEventListener('click', () =>{
+                    refresh.remove()
+                    playerScore = 0;
+                    computerScore = 0;
+                    draws = 0;
+                    scoreCount.textContent = `your score is ${playerScore} the computer score is ${computerScore} you have drawn ${draws} times`
+                    selection.textContent = ''
+                    finalScore.textContent = ''
+                })
+                btnWrapper.appendChild(refresh);
+                finalScore.textContent = `Final Score - Player:${playerScore} CPU:${computerScore}`
+                }
+        }
+        else if(playerScore === computerScore){
+            scoreCount.textContent = 'Draw'
+            if (btnWrapper.hasChildNodes() === false){
+                let refresh = document.createElement('button')
+                refresh.textContent = 'Play Again'
+                refresh.classList.add('btn')
+                refresh.addEventListener('click', () =>{
+                refresh.remove()
+                playerScore = 0;
+                computerScore = 0;
+                draws = 0;
+                scoreCount.textContent = `your score is ${playerScore} the computer score is ${computerScore} you have drawn ${draws} times`
+                selection.textContent = ''
+                finalScore.textContent = ''
+            })
+                btnWrapper.appendChild(refresh);
+                finalScore.textContent = `Final Score - Player:${playerScore} CPU:${computerScore}`
+                }
+        }
+    }
+    }
+
 function getComputerChoice() {
     let computerSelection = Math.floor(Math.random()*3);
     if (computerSelection === 0) {
@@ -9,81 +84,58 @@ function getComputerChoice() {
     else return 'scissors'
 }
 
-function getPlayerChoice() {
-    let playerchoice;
-    do {
-        playerchoice = prompt('Console Rock Paper scissors! what do you choose?').toLowerCase();
-        if (playerchoice === 'rock' || playerchoice === 'paper' || playerchoice === 'scissors'){
-            return playerchoice;
+
+function playRound(e) {
+    let playerChoice = e.target.className
+    let computerChoice = getComputerChoice();
+    let roundState = ''
+    if((playerScore < 5 && computerScore < 5)){
+        if(computerChoice === 'rock' && playerChoice === 'paper'){
+            playerScore++
+            roundState = 'Won';
         }
-    }
-    while (playerchoice != 'rock' || 'paper' || 'scissors');
-    
+        else if(computerChoice ==='rock' && playerChoice ==='scissors'){
+            computerScore++ // player lose
+            roundState = 'Lost';
+        }
+        else if(computerChoice ==='rock' && playerChoice ==='rock'){
+            draws++ // draw
+            roundState = 'Drawn';
+        }
+        else if(computerChoice ==='paper' && playerChoice ==='scissors'){
+            playerScore++
+            roundState = 'Won';
+        }
+        else if(computerChoice ==='paper' && playerChoice ==='rock'){
+            computerScore++
+            roundState = 'Lost';
+        }
+        else if(computerChoice ==='paper' && playerChoice ==='paper'){
+            draws++
+            roundState = 'Drawn';
+        }
+        else if(computerChoice ==='scissors' && playerChoice ==='rock'){
+            playerScore++
+            roundState = 'Won';
+        }
+        else if(computerChoice ==='scissors' && playerChoice ==='paper'){
+            computerScore++
+            roundState = 'Lost';
+        }
+        else if(computerChoice ==='scissors' && playerChoice ==='scissors'){
+            draws++
+            roundState = 'Drawn';
+        }
+    selection.textContent = `You choose ${playerChoice} The computer chose ${computerChoice} the round is ${roundState}`
 }
 
-function playRound(playerSelection, computerSelection) {
-
-    if (playerSelection === 'rock' && computerSelection === 'paper'){
-        return 0; //computer point
-    }
-    else if (playerSelection === 'rock' && computerSelection === 'scissors'){
-        return 1; //player point
-    } 
-    else if (playerSelection === 'rock' && computerSelection === 'rock'){
-        return 2; //draw point
-    }
-    else if (playerSelection === 'paper' && computerSelection === 'scissors'){
-        return 0; //cpu point
-    }
-    else if (playerSelection === 'paper' && computerSelection === 'rock'){
-        return 1; //player point
-    }
-    else if (playerSelection === 'paper' && computerSelection === 'paper'){
-        return 2; //draw point
-    }
-    else if (playerSelection === 'scissors' && computerSelection === 'rock'){
-        return 0; //cpu point
-    }
-    else if (playerSelection === 'scissors' && computerSelection === 'paper'){
-        return 1; //player point
-    }
-    else if (playerSelection === 'scissors' && computerSelection === 'scissors'){
-        return 2; //draw point
-    }
+    updateScore();
 }
 
-function game() {
-    let cpu_score = 0;
-    let player_score = 0;
-    for (let i = 0; i<5; i++){
-        let playerSelection = getPlayerChoice();
-        let computerSelection = getComputerChoice();
-        let score = playRound(playerSelection, computerSelection);
-        if (score === 0){
-            cpu_score++;
-        }
-        if (score === 1){
-            player_score++;
-        }
-        if (score === 2){
-            player_score++;
-            cpu_score++;
-        }
-        console.log(`you chose ${playerSelection} the computer chose ${computerSelection} your score is ${player_score} the computers score is ${cpu_score}`);
-    }
-    console.log(`GAME OVER! Your score is ${player_score} The computers score is ${cpu_score}`)
-    if (cpu_score>player_score){
-        console.log('You lost Refresh the page to play again!')
-    }
-    else if (player_score>cpu_score){
-        console.log('You won Refresh the page to play again!')
-    }
-    else if (player_score === cpu_score){
-        console.log('You drew, Refresh to play again!')
-    }
+function game(){
+rock.addEventListener(('click'), playRound)
+paper.addEventListener(('click'), playRound)
+scissors.addEventListener(('click'), playRound)
 }
 
-
-
-
-game();
+game()

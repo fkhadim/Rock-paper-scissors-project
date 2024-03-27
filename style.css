@@ -1,3 +1,81 @@
+body {
+    background-color: rgb(47, 79, 79);
+}
+
 h1 {
+    color: whitesmoke;
+    font-size: 50px;
+    font-family: monospace;
     text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    height: 200px;
+    width: 200px;
+}
+
+.imgs {
+    width: 100vw;
+    height: 50vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.info {
+    font-size: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.selection{
+    font-size: 23px;
+    margin: 5px;
+    text-align: center;
+}
+.score-count{
+    font-size: 23px;
+    margin: 5px;
+    text-align: center;
+}
+
+.btn {
+    background-color: rgb(75, 75, 250);
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    border: none;
+    margin-top: 20px;
+}
+
+.final-score {
+    font-size: 35px;
+    font-family: monospace;
+    margin-top: 20px;
+    text-align: center;
+}
+
+img {
+    cursor: pointer;
+}
+
+img:hover {
+    background-color: rgb(45, 65, 65);
+}
+
+.btn:hover {
+    background-color: rgb(71, 71, 172);
+    cursor: pointer;
 }
